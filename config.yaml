@@ -1,0 +1,37 @@
+headers:
+  Accept: '*/*'
+  Accept-Encoding: gzip,deflate
+  Accept-Language: zh-CN,zh;q=0.9
+  Connection: keep-alive
+  Content-Length: '684'
+  Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+  Cookie: EPORTAL_COOKIE_OPERATORPWD=; EPORTAL_USER_GROUP=null; EPORTAL_COOKIE_USERNAME=;
+    EPORTAL_COOKIE_PASSWORD=; EPORTAL_COOKIE_SERVER=; EPORTAL_COOKIE_SERVER_NAME=;
+    EPORTAL_COOKIE_SAVEPASSWORD=false; EPORTAL_COOKIE_DOMAIN=false; EPORTAL_COOKIE_NEWV=;
+    EPORTAL_AUTO_LAND=; JSESSIONID=91ACA6326FF8E490BA058333F47ED118; JSESSIONID=33C0695819B781109D1D84465396D828
+  Dnt: '1'
+  Host: 10.254.241.19
+  Origin: http://10.254.241.19
+  Referer: http://10.254.241.19/eportal/index.jsp?wlanuserip=524b8d5d3b7be8df69a8ca477886ea51&wlanacname=97a2ecf6f720c9b94344e81caa687812&ssid=&nasip=9146c4376ca4d4ab9a67a9844f8bc16d&snmpagentip=&mac=ea3ce39a35f5b4d7874efebbea486e9d&t=wireless-v2&url=ce94fa5d1476f4035bdffb297b90e6a80e35ca1c5603dac6&apmac=&nasid=97a2ecf6f720c9b94344e81caa687812&vid=b6746f3d1556f867&port=4ba9ab9e09dd0b97&nasportid=42f79eb53725d6ee652dfa421b44ee785bc3bcac7c18e578daee4495c73b083b8e31c2625198e12d
+payload:
+  login:
+    operatorPwd: ''
+    operatorUserId: ''
+    password: ~
+    passwordEncrypt: 'false'
+    queryString: wlanuserip%3D524b8d5d3b7be8df69a8ca477886ea51%26wlanacname%3D97a2ecf6f720c9b94344e81caa687812%26ssid%3D%26nasip%3D9146c4376ca4d4ab9a67a9844f8bc16d%26snmpagentip%3D%26mac%3Dea3ce39a35f5b4d7874efebbea486e9d%26t%3Dwireless-v2%26url%3Dce94fa5d1476f4035bdffb297b90e6a80e35ca1c5603dac6%26apmac%3D%26nasid%3D97a2ecf6f720c9b94344e81caa687812%26vid%3Db6746f3d1556f867%26port%3D4ba9ab9e09dd0b97%26nasportid%3D42f79eb53725d6ee652dfa421b44ee785bc3bcac7c18e578daee4495c73b083b8e31c2625198e12d
+    service: '%E7%94%B5%E4%BF%A1'
+    userId: ~
+    validcode: ''
+  logout:
+    method: logout
+  password: Cuit_456602847
+  userId: '2023083061'
+target_code:
+  fail: <script language='javascript' type='text/javascript'> window.location.href='http://123.123.123.123/';</script>
+  success: "\u60A8\u5DF2\u6210\u529F\u8FDE\u63A5\u6821\u56ED\u7F51!"
+urls:
+  login: http://10.254.241.19/eportal/InterFace.do?method=login
+  logout: http://10.254.241.19/eportal/InterFace.do?method=logout
+  redirect_url: http://123.123.123.123
+  schoolWebLoginURL: http://10.254.241.19/eportal/success.jsp?userIndex=39313436633433373663613464346162396136376139383434663862633136645f31302e31382e3232362e3232305f32303233303833303631&keepaliveInterval=0
