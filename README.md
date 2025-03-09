@@ -1,5 +1,3 @@
-<div align="center" xmlns="http://www.w3.org/1999/html">
-
 # cuit-campus-network
 
 ![Github Social Preview](<https://pic.er-meng.com/PicGo/repo-social-image-1741535956201.png>)
