@@ -1,8 +1,10 @@
+<div align="center" xmlns="http://www.w3.org/1999/html">
+
 # cuit-campus-network
 
-简体中文 | [English](<https://github.com/Chaoermeng/cuit-campus-network/README_EN.md>)
-
 ![Github Social Preview](<https://pic.er-meng.com/PicGo/repo-social-image-1741535956201.png>)
+
+<a href="https://trendshift.io/repositories/11174" target="_blank"><img src="https://trendshift.io/api/badge/repositories/11174" alt="opendatalab%2FMinerU | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
 [![Python Version](https://img.shields.io/badge/python-3.13.2-blue)](https://www.python.org)
 [![License](https://img.shields.io/github/license/Chaoermeng/cuit-campus-network)](https://github.com/Chaoermeng/cuit-campus-network/main/LICENSE)
@@ -10,6 +12,8 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/Chaoermeng/cuit-campus-network)](https://github.com/Chaoermeng/cuit-campus-network)
 [![GitHub forks](https://img.shields.io/github/forks/Chaoermeng/cuit-campus-network)](https://github.com/Chaoermeng/cuit-campus-network)
+
+简体中文 | [English](<https://github.com/Chaoermeng/cuit-campus-network/blob/main/README_EN.md>)
 
 ## 简介
 
@@ -49,8 +53,6 @@
 3. （可选）[保持登入状态](#保持登入状态)
 
 ### iOS
-
-
 
 [![点击图片以跳转](https://pic.er-meng.com/PicGo/%E6%88%AA%E5%B1%8F2025-03-09%2017.37.01.png)](<https://www.icloud.com/shortcuts/c959666847664269acebcfc9eea2a1b2>)
 
