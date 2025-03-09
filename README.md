@@ -8,14 +8,14 @@
 
 ## 计划
 
-- [x] 增加图例
-- [x] 增加流程图（使用 `Mermaid`）
-- [x] 编写 `iOS` 快捷指令
-- [ ] 增加对移动的支持
-- [ ] 增加对教学楼&图书馆&实验室的支持
-- [ ] 配置可视化界面（`Node.js` 或 `Gradio`）
-- [ ] 使用 `Pyinstaller` 打包为可执行程序
-- [ ] 打包为 `Docker` 容器
+- [x] :chart_with_upwards_trend: 增加图例
+- [x] :pencil2: 增加流程图（使用 `Mermaid`）
+- [x] :iphone: 编写 `iOS` 快捷指令
+- [ ] :rocket: 增加对移动的支持
+- [ ] :school: 增加对教学楼&图书馆&实验室的支持
+- [ ] :eyes: 配置可视化界面（`Node.js` 或 `Gradio`）
+- [ ] :hammer: 使用 `Pyinstaller` 打包为可执行程序
+- [ ] :file_folder: 打包为 `Docker` 容器
 
 ## 登入
 
@@ -168,3 +168,7 @@ launchctl load ~/Library/LaunchAgents/com.campusnetwork.auto.plist
 ```Shell
 launchctl unload ~/Library/LaunchAgents/com.campusnetwork.auto.plist
 ```
+
+## LICENSE
+
+[MIT LICENSE](<https://github.com/Chaoermeng/cuit-campus-network/blob/main/LICENSE>)

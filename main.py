@@ -13,10 +13,10 @@ with open("config.yaml", "r", encoding="utf-8") as file:
 
 # 用户输入配置
 userId = input("请输入校园网账号：")
-config["payload"]["userId"] = userId
+config["payload"]["login"]["userId"] = userId
 
 password = input("请输入校园网密码：")
-config["payload"]["password"] = password
+config["payload"]["login"]["password"] = password
 
 # 修改配置文件
 with open("config.yaml", 'w', encoding = "utf-8") as file:
