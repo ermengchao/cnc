@@ -1,6 +1,15 @@
 # cuit-campus-network
 
-![](<https://pic.er-meng.com/PicGo/repo-social-image-1741535956201.png>)
+简体中文 | [English](<https://github.com/Chaoermeng/cuit-campus-network/README_EN.md>)
+
+![Github Social Preview](<https://pic.er-meng.com/PicGo/repo-social-image-1741535956201.png>)
+
+[![Python Version](https://img.shields.io/badge/python-3.13.2-blue)](https://www.python.org)
+[![License](https://img.shields.io/github/license/Chaoermeng/cuit-campus-network)](https://github.com/Chaoermeng/cuit-campus-network/main/LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/Chaoermeng/cuit-campus-network)](https://github.com/Chaoermeng/cuit-campus-network/commits)
+
+[![GitHub stars](https://img.shields.io/github/stars/Chaoermeng/cuit-campus-network)](https://github.com/Chaoermeng/cuit-campus-network)
+[![GitHub forks](https://img.shields.io/github/forks/Chaoermeng/cuit-campus-network)](https://github.com/Chaoermeng/cuit-campus-network)
 
 ## 简介
 
