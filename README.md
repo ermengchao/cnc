@@ -1,11 +1,11 @@
 # cuit-campus-network
 
->[成都信息工程大学](<https://www.cuit.edu.cn>)校园网自动登录&保持登录脚本（Python 实现）  
+>[成都信息工程大学](<https://www.cuit.edu.cn>)校园网自动登录&保持登录脚本（`Python` 实现）  
 >后续会推出更多客户端的登录和自动连接脚本
 
 ## 使用
 
-1. 配置环境（使用 pyenv）
+1. 配置环境（使用 `pyenv`）
 
     ``` Shell
 
@@ -18,11 +18,11 @@
 
     ```
 
-2. 运行 main.py
+2. 运行 `main.py`
 
 ## 原理
 
-通过抓包发现，校园网认证的过程中，客户端会向服务器发送一个 POST 请求。因此，我们可以通过 Python 中的 requests 库来模拟浏览器行为，向服务器发送这两个数据包，从而实现自动登录
+通过抓包发现，校园网认证的过程中，客户端会向服务器发送一个 `POST` 请求。因此，我们可以通过 `Python` 中的 `requests` 库来模拟浏览器行为，向服务器发送这两个数据包，从而实现自动登录
 
 ## 流程
 
@@ -45,10 +45,10 @@ J --> H
 ## 抓包步骤
 
 1. 退出登录
-2. 在输入校园网账号密码后在键盘上点击f12（或右键网页 -> 检查），找到网络选项
+2. 在输入校园网账号密码后在键盘上点击`f12`（或右键网页 -> 检查），找到网络选项
 3. 点击认证
-4. 找到 ***sucess.jsp*** 开头的文件以及 ***InterFace.do*** 开头的文件。根据前者的 Payload 内容修改 ***payload_config.py*** 文件，根据后者的“标头”内容修改 ***headers_config*** 文件
-5. 根据你的客户端配置环境，需要安装 ***requests*** 库。如果执行 ***login.py*** 文件后输出“认证成功”，则表示成功配置
+4. 找到 `sucess.jsp` 开头的文件以及 `InterFace.do` 开头的文件。根据前者的 `Payload` 内容修改 `payload_config.py` 文件，根据后者的“标头”内容修改 `headers_config` 文件
+5. 根据你的客户端配置环境，需要安装 `requests` 库。如果执行 `login.py` 文件后输出“认证成功”，则表示成功配置
 
 ## 保持登录
 
@@ -70,24 +70,24 @@ J --> H
 
 ### 通用
 
-直接运行 main.py 或者 stay_alive.py。py 脚本会实现自动登录
+直接运行 `main.py` 或者 `stay_alive.py.py` 脚本会实现自动登录
 
 ### Windows
 
 可以通过[计划任务程序](<https://learn.microsoft.com/zh-cn/windows/win32/taskschd/using-the-task-scheduler>)实现
 ![计划任务程序截图](<https://pic.er-meng.com/PicGo/%E6%88%AA%E5%B1%8F2025-03-09%2016.37.50.png>)
 
-### MacOS 
+### MacOS
 
-如果你不想让 Python 程序在后台常驻，可以通过编辑 [plist](https://support.apple.com/zh-cn/guide/terminal/apda49a1bb2-577e-4721-8f25-ffc0836f6997/mac) 文件实现
+如果你不想让 `Python` 程序在后台常驻，可以通过编辑 [plist](https://support.apple.com/zh-cn/guide/terminal/apda49a1bb2-577e-4721-8f25-ffc0836f6997/mac) 文件实现
 
-1.plist 路径
+1.路径
 
 `~/Library/LaunchAgents/com.campusnetwork.auto.plist`
 
-2.编辑 plist
+2.编辑
 
-注意需要根据实际情况修改为你的脚本路径
+>**注意需要根据实际情况修改为你的脚本路径**
 
 ```shell
 <?xml version="1.0" encoding="UTF-8"?>
@@ -136,10 +136,12 @@ J --> H
 
 3.加载任务
 
-在终端输入：
-`launchctl load ~/Library/LaunchAgents/com.campusnetwork.auto.plist`
+```Shell
+launchctl load ~/Library/LaunchAgents/com.campusnetwork.auto.plist
+```
 
-4.(可选)卸载任务
+4.卸载任务（可选）
 
-在终端输入：
-`launchctl unload ~/Library/LaunchAgents/com.campusnetwork.auto.plist`
+```Shell
+launchctl unload ~/Library/LaunchAgents/com.campusnetwork.auto.plist
+```
