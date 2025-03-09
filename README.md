@@ -1,5 +1,7 @@
 # cuit-campus-network
 
+![](<https://pic.er-meng.com/PicGo/repo-social-image-1741535956201.png>)
+
 ## 简介
 
 >[成都信息工程大学](<https://www.cuit.edu.cn>)校园网自动登录&保持登录脚本（`Python` 实现）  
