@@ -2,8 +2,6 @@
 
 ![Github Social Preview](<https://pic.er-meng.com/PicGo/repo-social-image-1741535956201.png>)
 
-<a href="https://trendshift.io/repositories/11174" target="_blank"><img src="https://trendshift.io/api/badge/repositories/11174" alt="opendatalab%2FMinerU | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-
 [![Python Version](https://img.shields.io/badge/python-3.13.2-blue)](https://www.python.org)
 [![License](https://img.shields.io/github/license/Chaoermeng/cuit-campus-network)](https://github.com/Chaoermeng/cuit-campus-network/main/LICENSE)
 [![Last Commit](https://img.shields.io/github/last-commit/Chaoermeng/cuit-campus-network)](https://github.com/Chaoermeng/cuit-campus-network/commits)
