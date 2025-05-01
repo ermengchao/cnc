@@ -5,17 +5,22 @@ $STATUS_ERROR = 3
 
 function Write-UserConfig {
     . $PROFILE.CurrentUserAllHosts
+    $Config_Exist = 0
+
     if (-not $env:CUIT_USERID) {
+        $Config_Exist = 1
         $env:CUIT_USERID = Read-Host '请输入账号 (CUIT_USERID):'
         '$env:CUIT_USERID = "' + $env:CUIT_USERID + '"' | Add-Content -Path $PROFILE.CurrentUserAllHosts
     }
 
     if (-not $env:CUIT_PASSWORD) {
+        $Config_Exist = 1
         $env:CUIT_PASSWORD = Read-Host '请输入密码 (CUIT_PASSWORD):'
         '$env:CUIT_PASSWORD = "' + $env:CUIT_PASSWORD + '"' | Add-Content -Path $PROFILE.CurrentUserAllHosts
     }
 
     if (-not $env:CUIT_SERVICE) {
+        $Config_Exist = 1
         $choice = Read-Host '请选择服务 (输入 1 = 移动, 2 = 电信):'
         switch ($choice) {
             '1' { $env:CUIT_SERVICE = '移动' }
@@ -26,6 +31,10 @@ function Write-UserConfig {
             }
         }
         '$env:CUIT_SERVICE = "' + $env:CUIT_SERVICE + '"' | Add-Content -Path $PROFILE.CurrentUserAllHosts
+    }
+
+    if ($Config_Exist -ne 0) {
+        Write-Host "✅已写入配置文件：$PROFILE.CurrentUserAllHosts"
     }
 }
 

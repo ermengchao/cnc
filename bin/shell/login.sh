@@ -4,7 +4,7 @@ readonly STATUS_UNCONNECTED=2
 readonly STATUS_ERROR=3
 
 write_user_config() {
-  local current_shell shell_config
+  local current_shell shell_config config_exist=0
 
   # 检测 shell 类型
   current_shell=$(ps -p $$ -o comm= | awk -F/ '{print $NF}')
@@ -23,23 +23,27 @@ write_user_config() {
       ;;
   esac
 
+  source $shell_config
   CUIT_USERID="${CUIT_USERID:-}"
   CUIT_PASSWORD="${CUIT_PASSWORD:-}"
   CUIT_SERVICE="${CUIT_SERVICE:-}"
 
   if [[ -z "$CUIT_USERID" ]]; then
+    config_exist=1
     read -r -p "请输入账号: " CUIT_USERID
     [[ -n "$CUIT_USERID" ]] && ! grep -q "^export CUIT_USERID=" "$shell_config" && \
       echo "export CUIT_USERID=\"$CUIT_USERID\"" >> "$shell_config"
   fi
 
   if [[ -z "$CUIT_PASSWORD" ]]; then
+    config_exist=1
     read -r -p "请输入密码: " CUIT_PASSWORD
     [[ -n "$CUIT_PASSWORD" ]] && ! grep -q "^export CUIT_PASSWORD=" "$shell_config" && \
       echo "export CUIT_PASSWORD=\"$CUIT_PASSWORD\"" >> "$shell_config"
   fi
 
   if [[ -z "$CUIT_SERVICE" ]]; then
+    config_exist=1
     read -r -p "请选择服务(移动输入 1, 电信输入 2): " input
     case "$input" in
       1) CUIT_SERVICE="移动" ;;
@@ -50,7 +54,9 @@ write_user_config() {
       echo "export CUIT_SERVICE=\"$CUIT_SERVICE\"" >> "$shell_config"
   fi
 
-  echo "✅已写入配置文件：$shell_config"
+  if [[ config_exist -ne 0 ]]; then
+    echo "✅已写入配置文件：$shell_config"
+  fi
 }
 
 get_campus_network_status() {
