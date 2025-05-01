@@ -13,48 +13,88 @@
 
 ## 简介
 
->[成都信息工程大学](<https://www.cuit.edu.cn>)校园网自动登录&保持登录脚本（`Python` 实现）  
->该脚本包含两个部分：[登入](#登入)和[保持登入状态](#保持登入状态)  
->当前版本仅在宿舍可用。教学楼&图书馆&实验室似乎采用了不同的认证机制，需要进一步抓包分析
+>[成都信息工程大学](<https://www.cuit.edu.cn>)校园网登录&注销&保持登录脚本（`Python` 和 `Shell` 实现）  
+>该脚本包含两个部分：[登录&注销&获取登录状态](#登录注销)和[保持登录状态](#保持登录状态)  
 
 ## 计划
 
 - [x] :chart_with_upwards_trend: 增加图例
 - [x] :pencil2: 增加流程图（使用 `Mermaid`）
 - [x] :iphone: 编写 `iOS` 快捷指令
-- [ ] :rocket: 增加对移动的支持
-- [ ] :school: 增加对教学楼&图书馆&实验室的支持
-- [ ] :eyes: 配置可视化界面（`Node.js` 或 `Gradio`）
+- [x] :rocket: 增加对移动的支持
+- [x] :school: 增加对教学楼&图书馆&实验室的支持
+- [ ] :eyes: 配置可视化界面（`Next.js` 或 `Gradio`）
 - [ ] :hammer: 使用 `Pyinstaller` 打包为可执行程序
 - [ ] :file_folder: 打包为 `Docker` 容器
 
-## 登入
+## 使用
 
-### Windows/MacOS/Linux
+### 登录&注销
 
-1. 配置环境（使用 `pyenv`）
+#### Windows
 
-    ``` Shell
+1. PowerShell（推荐）
+   1. 克隆本仓库
+   2. 打开 `命令提示符`
+   3. 运行脚本
 
-    # 配置虚拟环境（可选）
-    python3 -m venv .venv
-    source .venv/bin/activate
+        ```pwsh
+        # 定位到项目目录，根据你的实际情况来
+        cd /CUIT-Campus-Network
 
-    # 安装依赖
-    pip install requests pyyaml
+        # 运行脚本
+        pwsh -ExecutionPolicy Bypass -File .\bin\login.ps1
+        ```
 
-    ```
+2. Python
+   1. 配置环境（使用 `venv`）
 
-2. 运行 `main.py`
-3. （可选）[保持登入状态](#保持登入状态)
+        ``` Shell
+
+        # 配置虚拟环境
+        python -m venv .venv
+        .venv\Scripts\activate.bat  # cmd
+        .venv\Scripts\Activate.ps1  # pwsh
+
+        # 安装依赖
+        pip install requests
+        ```
+
+   2. 运行 `main.py`
+   3. （可选）[保持登录状态](#on-windows)
+
+### MacOS & Linux
+
+1. Shell
+   1. 克隆本仓库
+   2. 打开`终端`
+   3. 运行脚本
+
+        ```shell
+        cd CUIT-Campus-Network
+        chmod +x /bin/shell/login.sh
+        /bin/zsh /bin/shell/login.sh
+        ```
+
+2. Python
+   1. 配置环境（推荐使用 [uv](<https://docs.astral.sh/uv/>), 也可以使用 `venv`。以下演示 uv）
+
+        ```shell
+        uv init
+        uv pip install requests
+        ```
+
+   2. 运行 `main.py`
+
+        ```shell
+        uv run /bin/shell/login.sh
+        ```
+
+   3. （可选）[保持登录状态](#on-macos)
 
 ### iOS
 
 [![点击图片以跳转](https://pic.er-meng.com/PicGo/%E6%88%AA%E5%B1%8F2025-03-09%2017.37.01.png)](<https://www.icloud.com/shortcuts/c959666847664269acebcfc9eea2a1b2>)
-
-## 原理
-
-通过抓包发现，校园网认证的过程中，客户端会向服务器发送一个 `POST` 请求。因此，我们可以通过 `Python` 中的 `requests` 库来模拟浏览器行为，向服务器发送这两个数据包，从而实现自动登录
 
 ## 流程
 
@@ -74,15 +114,35 @@ I -->|否| H
 J --> H
 ```
 
-## 抓包步骤
+## 抓包
+
+> 非必须，如果你也有兴趣，可以参考以下步骤。如果遇到问题，欢迎提交 [issue](<https://github.com/Chaoermeng/CUIT-Campus-Network/issues>)！
 
 1. 退出登录
-2. 在输入校园网账号密码后在键盘上点击`f12`（或右键网页 -> 检查），找到网络选项
+2. 在输入校园网账号密码后在键盘上点击`f12`（或右键网页 -> 检查），找到网络选项。**记得勾选“保留日志”！**
 3. 点击认证
-4. 找到 `sucess.jsp` 开头的文件以及 `InterFace.do` 开头的文件。根据前者的 `Payload` 内容修改 `payload_config.py` 文件，根据后者的“标头”内容修改 `headers_config` 文件
-5. 根据你的客户端配置环境，需要安装 `requests` 库。如果执行 `login.py` 文件后输出“认证成功”，则表示成功配置
+4. 找到 `InterFace.do?method=login` 开头的数据包。可以看到，载荷（`Payload`）中包含了你的账号、密码和服务提供商（服务提供商不是汉字, 因为被 url 编码了）
+5. 找到 `http://123.123.123.123`, 其返回值是 `JavaScript`。被 `<script>` 标签包裹的就是 `queryString`。其值主要用来验证用户源 ip 以及设备注册信息
+6. 用 curl 模仿发送 `InterFace.do?method=login` 数据包，方法为 `POST`。其中需包含的字段有：
 
-## 保持登入状态
+    ```shell
+    # Header
+    -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
+
+    # Body
+    # 用户信息
+    --data-urlencode "userId=$userId" \
+    --data-urlencode "password=$password" \
+    --data-urlencode "service=$service" \
+    --data-urlencode "queryString=$queryString" \
+    # 占位字段
+    --data-urlencode 'operatorPwd=' \
+    --data-urlencode 'operatorUserId=' \
+    --data-urlencode 'validcode=' \
+    --data-urlencode 'passwordEncrypt=false'
+    ```
+
+## 保持登录状态
 
 ### 方法一
 
@@ -104,12 +164,15 @@ J --> H
 
 直接运行 `main.py` 或者 `stay_alive.py.py` 脚本会实现自动登录
 
-### Windows
+### on Windows
 
-可以通过[计划任务程序](<https://learn.microsoft.com/zh-cn/windows/win32/taskschd/using-the-task-scheduler>)实现
-![计划任务程序截图](<https://pic.er-meng.com/PicGo/%E6%88%AA%E5%B1%8F2025-03-09%2016.37.50.png>)
+- 通过[计划任务程序](<https://learn.microsoft.com/zh-cn/windows/win32/taskschd/using-the-task-scheduler>)的 GUI 实现
+![计划任务程序截图](<https://pic.er-meng.com/PicGo/%E6%88%AA%E5%B1%8F2025-03-09%2016.37.50.png>)  
 
-### MacOS
+- 通过 `schtasks.exe` 的 CLI 实现  
+- 通过 `PowerShell ScheduledJob` 实现
+
+### on MacOS
 
 如果你不想让 `Python` 程序在后台常驻，可以通过编辑 [plist](https://support.apple.com/zh-cn/guide/terminal/apda49a1bb2-577e-4721-8f25-ffc0836f6997/mac) 文件实现
 
@@ -177,6 +240,10 @@ launchctl load ~/Library/LaunchAgents/com.campusnetwork.auto.plist
 ```Shell
 launchctl unload ~/Library/LaunchAgents/com.campusnetwork.auto.plist
 ```
+
+### on Linux
+
+你都用 `Linux` 了，还用我教你？
 
 ## LICENSE
 
