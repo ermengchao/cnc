@@ -1,0 +1,14 @@
+[Unit]
+Description=Logout then login campus network (05:00 daily via timer)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=$home
+
+ExecStart=$HOME/.local/bin/logout.sh
+ExecStartPost=$HOME/.local/bin/login.sh
+
+StandardOutput=journal
+StandardError=journal

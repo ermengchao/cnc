@@ -1,3 +1,5 @@
+#!/bin/bash
+
 redirect_url=$(curl -s -L -w "%{url_effective}\n" -o /dev/null --max-time 1 http://10.254.241.19)
 
 if [[ $curl_exit_code -ne 0 ]]; then

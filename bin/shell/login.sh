@@ -1,70 +1,64 @@
+#!/bin/bash
+
 readonly STATUS_ONLINE=0
 readonly STATUS_OFFLINE=1
 readonly STATUS_UNCONNECTED=2
 readonly STATUS_ERROR=3
 
 write_user_config() {
-  local current_shell shell_config config_exist=0
-
-  # 检测 shell 类型
-  current_shell=$(ps -p $$ -o comm= | awk -F/ '{print $NF}')
-  case "$current_shell" in
-    zsh) shell_config="$HOME/.zshenv" ;;
-    bash)
-      if [[ -f "$HOME/.bash_profile" ]]; then
-        shell_config="$HOME/.bash_profile"
-      else
-        shell_config="$HOME/.bashrc"
-      fi
-      ;;
-    *) 
-      echo "⚠️ 不支持的 shell: $current_shell, 默认写入 ~/.profile"
-      shell_config="$HOME/.profile"
-      ;;
-  esac
-
-  source $shell_config
   CUIT_USERID="${CUIT_USERID:-}"
   CUIT_PASSWORD="${CUIT_PASSWORD:-}"
   CUIT_SERVICE="${CUIT_SERVICE:-}"
+  config="./env.sh"
+  config_modify="${config_modify:0}"
+
+  if [[ -z "$CUIT_USERID" && -e $config ]]; then
+    source $config
+    if [[ -z "$CUIT_USERID" ]]; then
+      rm $config
+    fi
+  fi
 
   if [[ -z "$CUIT_USERID" ]]; then
-    config_exist=1
     read -r -p "请输入账号: " CUIT_USERID
-    [[ -n "$CUIT_USERID" ]] && ! grep -q "^export CUIT_USERID=" "$shell_config" && \
-      echo "export CUIT_USERID=\"$CUIT_USERID\"" >> "$shell_config"
+    echo "export CUIT_USERID=\"$CUIT_USERID\"" >> "$config"
+    config_modify=1
   fi
 
   if [[ -z "$CUIT_PASSWORD" ]]; then
-    config_exist=1
     read -r -p "请输入密码: " CUIT_PASSWORD
-    [[ -n "$CUIT_PASSWORD" ]] && ! grep -q "^export CUIT_PASSWORD=" "$shell_config" && \
-      echo "export CUIT_PASSWORD=\"$CUIT_PASSWORD\"" >> "$shell_config"
+    echo "export CUIT_PASSWORD=\"$CUIT_PASSWORD\"" >> "$config"
+    config_modify=1
   fi
 
   if [[ -z "$CUIT_SERVICE" ]]; then
-    config_exist=1
     read -r -p "请选择服务(移动输入 1, 电信输入 2): " input
     case "$input" in
       1) CUIT_SERVICE="移动" ;;
       2) CUIT_SERVICE="电信" ;;
       *) echo "🤡 无效输入"; exit 1 ;;
     esac
-    [[ -n "$CUIT_SERVICE" ]] && ! grep -q "^export CUIT_SERVICE=" "$shell_config" && \
-      echo "export CUIT_SERVICE=\"$CUIT_SERVICE\"" >> "$shell_config"
+    echo "export CUIT_SERVICE=\"$CUIT_SERVICE\"" >> "$shell_config"
+    config_modify=1
   fi
 
-  if [[ config_exist -ne 0 ]]; then
-    echo "✅已写入配置文件：$shell_config"
+  if [[ $config_modify -eq 1 ]]; then
+    echo "✅已写入配置文件：$config"
   fi
 }
 
 get_campus_network_status() {
   local redirect_url
   redirect_url=$(curl -s -L -w "%{url_effective}\n" -o /dev/null --max-time 1 http://10.254.241.19)
+  local curl_exit_code=$?
 
   if [[ $curl_exit_code -ne 0 ]]; then
-    return $STATUS_ERROR
+    if [[ $curl_exit_code -eq 28 ]]; then
+      return $STATUS_ONLINE
+    else
+      printf 'curl_exit_code=%s\n' "$curl_exit_code" >&2
+      return $STATUS_ERROR
+    fi
   fi
 
   case "$redirect_url" in
@@ -105,7 +99,11 @@ campus_network_login() {
     --data-urlencode 'passwordEncrypt=false'
 }
 
-write_user_config
+# 只有在 TTY 时才交互写入
+if [[ -t 0 ]]; then
+  write_user_config
+fi
+
 get_campus_network_status
 s=$?
 case $s in

@@ -49,7 +49,7 @@
 2. Python
    1. 配置环境（使用 `venv`）
 
-        ``` Shell
+        ``` shell
 
         # 配置虚拟环境
         python -m venv .venv
@@ -63,9 +63,9 @@
    2. 运行 `main.py`
    3. （可选）[保持登录状态](#on-windows)
 
-### MacOS & Linux
+### macOS & GNU/Linux
 
-1. Shell
+1. shell
    1. 克隆本仓库
    2. 打开`终端`
    3. 运行脚本
@@ -73,7 +73,7 @@
         ```shell
         cd CUIT-Campus-Network
         chmod +x /bin/shell/login.sh
-        /bin/zsh /bin/shell/login.sh
+        ./bin/shell/login.sh
         ```
 
 2. Python
@@ -109,14 +109,14 @@ E -->|是| F[login]
 E -->|否| G[/Error/]
 F --> I
 G --> H((end))
-I -->|是| J[stay_alive]
+I -->|是| J[keep_logged_in]
 I -->|否| H
 J --> H
 ```
 
 ## 抓包
 
-> 非必须，如果你也有兴趣，可以参考以下步骤。如果遇到问题，欢迎提交 [issue](<https://github.com/Chaoermeng/CUIT-Campus-Network/issues>)！
+> 非必须，如果你也感兴趣，可以参考以下步骤。如果遇到问题，欢迎提交 [issue](<https://github.com/Chaoermeng/CUIT-Campus-Network/issues>)！
 
 1. 退出登录
 2. 在输入校园网账号密码后在键盘上点击`f12`（或右键网页 -> 检查），找到网络选项。**记得勾选“保留日志”！**
@@ -162,7 +162,7 @@ J --> H
 
 ### 通用
 
-直接运行 `main.py` 或者 `stay_alive.py.py` 脚本会实现自动登录
+直接运行 `main.py` 或者 `keep_logged_in.py` 脚本会实现自动登录
 
 ### on Windows
 
@@ -172,19 +172,23 @@ J --> H
 - 通过 `schtasks.exe` 的 CLI 实现  
 - 通过 `PowerShell ScheduledJob` 实现
 
-### on MacOS
+### on macOS
+
+> 通过 `launchd` 实现。
 
 如果你不想让 `Python` 程序在后台常驻，可以通过编辑 [plist](https://support.apple.com/zh-cn/guide/terminal/apda49a1bb2-577e-4721-8f25-ffc0836f6997/mac) 文件实现
 
 1.路径
 
-`~/Library/LaunchAgents/com.campusnetwork.auto.plist`
+```shell
+~/Library/LaunchAgents/com.campusnetwork.auto.plist
+```
 
 2.编辑
 
->**注意需要根据实际情况修改为你的脚本路径**
+>**注意需要修改脚本路径为实际路径**
 
-```shell
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -231,19 +235,40 @@ J --> H
 
 3.加载任务
 
-```Shell
+```shell
 launchctl load ~/Library/LaunchAgents/com.campusnetwork.auto.plist
 ```
 
-4.卸载任务（可选）
+4.（可选）卸载任务
 
-```Shell
+```shell
 launchctl unload ~/Library/LaunchAgents/com.campusnetwork.auto.plist
 ```
 
 ### on Linux
 
-你都用 `Linux` 了，还用我教你？
+> 通过 `systemd` 实现。
+
+1. （可选）创建环境变量
+
+    |变量名|含义|
+    |:-:|:-:|
+    |CUIT_USERID|校园网账号|
+    |CUIT_PASSWORD|校园网密码|
+    |CUIT_SERVICE|运营商|
+
+2. 建立系统级 `service`（将本项目 `systemd` 文件夹下的 `service` 和 `timer` 文件移动至 `/etc/systemd/system` 文件夹下。**注意将脚本路径修改为实际路径**）。也可建立用户级 `service`，需要额外配置 `linger` 或者 `gdm` 自动登录
+
+    ```shell
+    sudo mv ./systemd/* /etc/systemd/system
+    ```
+
+3. 启动服务
+
+    ```shell
+    sudo systemctl daemon-reload
+    sudo systemctl enable --now /etc/systemd/system/keep_logged_in.timer
+    ```
 
 ## LICENSE
 

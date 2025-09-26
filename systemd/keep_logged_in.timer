@@ -1,0 +1,11 @@
+[Unit]
+Description=Run keep_logged_in.service at 05:00 daily
+
+[Timer]
+OnCalendar=*-*-* 05:00
+# 如果 05:00 关机/睡眠了，开机后补跑一次
+Persistent=true
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target

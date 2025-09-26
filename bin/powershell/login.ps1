@@ -4,37 +4,42 @@ $STATUS_UNCONNECTED = 2
 $STATUS_ERROR = 3
 
 function Write-UserConfig {
-    . $PROFILE.CurrentUserAllHosts
-    $Config_Exist = 0
+    $config = Join-Path $PSScriptRoot 'env.ps1'
+    $config_modified = $false
 
-    if (-not $env:CUIT_USERID) {
-        $Config_Exist = 1
-        $env:CUIT_USERID = Read-Host '请输入账号 (CUIT_USERID):'
-        '$env:CUIT_USERID = "' + $env:CUIT_USERID + '"' | Add-Content -Path $PROFILE.CurrentUserAllHosts
+    if ([string]::IsNullOrEmpty($env:CUIT_USERID) -and (Test-Path $config)) {
+        . $config
+        if ([string]::IsNullOrEmpty($env:CUIT_USERID)) {
+            Remove-Item $config -ErrorAction SilentlyContinue
+        }
     }
 
-    if (-not $env:CUIT_PASSWORD) {
-        $Config_Exist = 1
-        $env:CUIT_PASSWORD = Read-Host '请输入密码 (CUIT_PASSWORD):'
-        '$env:CUIT_PASSWORD = "' + $env:CUIT_PASSWORD + '"' | Add-Content -Path $PROFILE.CurrentUserAllHosts
+    if ([string]::IsNullOrEmpty($env:CUIT_USERID)) {
+        $env:CUIT_USERID = Read-Host '请输入账号'
+        Add-Content -Path $config -Value ('$env:CUIT_USERID = "{0}"' -f $env:CUIT_USERID)
+        $config_modified = $true
     }
 
-    if (-not $env:CUIT_SERVICE) {
-        $Config_Exist = 1
-        $choice = Read-Host '请选择服务 (输入 1 = 移动, 2 = 电信):'
-        switch ($choice) {
+    if ([string]::IsNullOrEmpty($env:CUIT_PASSWORD)) {
+        # PowerShell 7+ 可用 -MaskInput 隐藏输入；如果是 Windows PowerShell 可换成 -AsSecureString 再转换
+        $env:CUIT_PASSWORD = Read-Host '请输入密码' -MaskInput
+        Add-Content -Path $config -Value ('$env:CUIT_PASSWORD = "{0}"' -f $env:CUIT_PASSWORD)
+        $config_modified = $true
+    }
+
+    if ([string]::IsNullOrEmpty($env:CUIT_SERVICE)) {
+        $input = Read-Host '请选择服务(移动输入 1, 电信输入 2)'
+        switch ($input) {
             '1' { $env:CUIT_SERVICE = '移动' }
             '2' { $env:CUIT_SERVICE = '电信' }
-            default {
-                Write-Host '🤡 无效输入！请输入 1 (移动) 或 2 (电信)' -ForegroundColor Red
-                exit 1
-            }
+            default { Write-Host '🤡 无效输入'; exit 1 }
         }
-        '$env:CUIT_SERVICE = "' + $env:CUIT_SERVICE + '"' | Add-Content -Path $PROFILE.CurrentUserAllHosts
+        Add-Content -Path $config -Value ('$env:CUIT_SERVICE = "{0}"' -f $env:CUIT_SERVICE)
+        $config_modified = $true
     }
 
-    if ($Config_Exist -ne 0) {
-        Write-Host "✅已写入配置文件：$PROFILE.CurrentUserAllHosts"
+    if ($config_modified) {
+        Write-Host "✅已写入配置文件：$config"
     }
 }
 
@@ -96,8 +101,6 @@ function Invoke-CampusNetwork-Login {
         --data-urlencode 'passwordEncrypt=false'
 }
 
-Write-UserConfig
-
 $status = Get-CampusNetwork-Status
 switch ($status) {
     $STATUS_ONLINE {
@@ -106,7 +109,8 @@ switch ($status) {
     }
     $STATUS_OFFLINE {
         Write-Host '😶 离线中，执行登录脚本...'
-        
+
+        Write-UserConfig
         $queryString = Get-QueryString
         Invoke-CampusNetwork-Login `
             -UserID $env:CUIT_USERID `

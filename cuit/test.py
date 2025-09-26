@@ -21,8 +21,8 @@ def test():
         return 1
     
     return 2
-    print(post_response.text)
-    print(config["target-code"]["fail"] in post_response.text)
+    # print(post_response.text)
+    # print(config["target-code"]["fail"] in post_response.text)
 
 if __name__ == "__main__":
     print("测试结束，", end = '')

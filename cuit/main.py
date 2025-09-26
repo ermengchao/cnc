@@ -4,7 +4,8 @@ import time
 import sys
 from login import login
 from logout import logout
-from stay_alive import stay_alive_1, stay_alive_2
+from test import test
+from keep_logged_in import keep_logged_in_v1, keep_logged_in_v2
 
 result = test()
 if result == 0:
@@ -32,9 +33,9 @@ while(True):
             else:
                 print("请输入 1 或 2...")
         if method == 1:
-            stay_alive_1
+            keep_logged_in_v1
         else:
-            stay_alive_2
+            keep_logged_in_v2
 
     elif choice == "no" or choice == "n":
         print("退出脚本...")

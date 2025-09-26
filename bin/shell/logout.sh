@@ -1,3 +1,5 @@
+#!/bin/bash
+
 readonly STATUS_ONLINE=0
 readonly STATUS_OFFLINE=1
 readonly STATUS_UNCONNECTED=2
@@ -6,9 +8,15 @@ readonly STATUS_ERROR=3
 get_campus_network_status() {
   local redirect_url
   redirect_url=$(curl -s -L -w "%{url_effective}\n" -o /dev/null --max-time 1 http://10.254.241.19)
+  local curl_exit_code=$?
 
   if [[ $curl_exit_code -ne 0 ]]; then
-    return $STATUS_ERROR
+    if [[ $curl_exit_code -eq 28 ]]; then
+      return $STATUS_OFFLINE
+    else
+      printf 'curl_exit_code=%s\n' "$curl_exit_code" >&2
+      return $STATUS_ERROR
+    fi
   fi
 
   case "$redirect_url" in
@@ -68,6 +76,8 @@ case "$s" in
     ;;
 
   *)
+    echo $s
     echo "🥹未知错误..."
+    exit 1
     ;;
 esac
