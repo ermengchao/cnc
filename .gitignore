@@ -1,7 +1,7 @@
-# MacOS
+# macOS
 .DS_Store
 
-# Python-generated files
+# python-generated files
 __pycache__/
 *.py[oc]
 build/
@@ -9,8 +9,14 @@ dist/
 wheels/
 *.egg-info
 
-# Virtual environments
+# virtual environments
 .venv
 
-# Temp File
-tempCodeRunnerFile.*
+# config files
+config.yaml
+
+# Dev Dependencied
+bun.lock
+commitlint.config.js
+lefthook.yml
+package.json
