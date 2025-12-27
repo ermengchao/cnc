@@ -1,0 +1,10 @@
+[Unit]
+Description=Run cnc_relogin.service at 05:00 daily
+
+[Timer]
+OnCalendar=*-*-* 05:00
+Persistent=true
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target

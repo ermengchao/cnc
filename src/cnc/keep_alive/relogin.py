@@ -3,8 +3,8 @@ from __future__ import annotations
 import time
 import schedule
 
-from cnc.login import login, LoginError
-from cnc.logout import logout, LogoutError
+from cnc.login import do_login, LoginError
+from cnc.logout import do_logout, LogoutError
 
 
 class KeepAliveError(Exception):
@@ -12,31 +12,58 @@ class KeepAliveError(Exception):
 
 
 def run(
-    *,
-    userId: str,
+    user_id: str,
     password: str,
     service: str,
-    portalUrl: str,
-    logout_at: str = "05:00",
+    *,
+    portal_url: str | None = None,
+    run_at: str = "05:00",
+    timeout: float = 2.0,
+    verify_tls: bool = False,
 ) -> None:
-    """
-    策略 v2：每天固定时间先登出再登入。
-    logout_at: "HH:MM" 24小时制
-    """
+    """Run a daily relogin schedule to refresh authentication.
 
+    Args:
+        user_id: User identifier for the portal.
+        password: User password.
+        service: Service name to authenticate against.
+        portal_url: Optional portal base URL. If absent, it is discovered.
+        run_at: Daily relogin time (HH:MM, 24h).
+        timeout: Request timeout in seconds.
+        verify_tls: Whether to verify TLS certificates.
+
+    Returns:
+        None.
+    """
     def _do_logout_then_login():
-        try:
-            logout(portalUrl)
-        except LogoutError:
-            # 登出失败通常不致命，继续尝试登录
-            pass
-        login(userId, password, service, portalUrl)
+        """Logout (best-effort) then login to refresh the session.
 
-    # 启动时先登录一次（可选）
-    login(userId, password, service, portalUrl)
+        Returns:
+            None.
+        """
+        try:
+            do_logout(
+                portal_url=portal_url,
+                timeout=timeout,
+                verify_tls=verify_tls,
+            )
+        except LogoutError:
+            pass
+
+        try:
+            do_login(
+                user_id,
+                password,
+                service,
+                portal_url=portal_url,
+                timeout=timeout,
+                verify_tls=verify_tls,
+            )
+        except LoginError:
+            raise KeepAliveError("Failed to keep alive due to LoginError")
 
     schedule.clear()
-    schedule.every().day.at(logout_at).do(_do_logout_then_login)
+    schedule.every().day.at(run_at).do(_do_logout_then_login)
 
     while True:
         schedule.run_pending()
