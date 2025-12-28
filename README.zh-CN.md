@@ -21,9 +21,9 @@
 - [x] :iphone: 编写 `iOS` 快捷指令
 - [x] :rocket: 增加对移动的支持
 - [x] :school: 增加对教学楼&图书馆&实验室的支持
-- [ ] :eyes: 配置可视化界面（`Next.js` 或 `Gradio`）
-- [ ] :hammer: 上传至 `PyPI`
+- [x] :hammer: 上传至 `PyPI`
 - [ ] :beer: 上传至 `Homebrew`
+- [ ] :eyes: 配置可视化界面（`Next.js` 或 `Gradio`）
 - [ ] :file_folder: 打包为 `Docker` 容器
 
 ## 安装

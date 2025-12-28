@@ -21,9 +21,9 @@ English | [简体中文](<https://github.com/ermengchao/cnc/blob/main/README.zh-
 - [x] :iphone: Support `iOS Shortcut` 
 - [x] :rocket: Support multiple ISP
 - [x] :school: Support multiple places(dormitory, classroom, etc.)
-- [ ] :eyes: Add graphical user interface（maybe `Next.js` or `Gradio`）
-- [ ] :hammer: Upload to `PyPI`
+- [x] :hammer: Upload to `PyPI`
 - [ ] :beer: Upload to `Homebrew`
+- [ ] :eyes: Add graphical user interface（maybe `Next.js` or `Gradio`）
 - [ ] :file_folder: Package into a container
 
 ## Install
@@ -184,50 +184,50 @@ Output:
 
 ```mermaid
 flowchart TD
-    A["CampusNetClient 初始化"] --> B["StateStore 读写 state.yaml"]
+    A[CampusNetClient initialization] --> B[StateStore read/write state.yaml]
 
     A --> S["status()"]
-    S --> S1{"有 cached portal_url?"}
-    S1 -- "否" --> S2["StateError: 先登录缓存"]
-    S1 -- "是" --> S3["detect_network_status(redirect_url)"]
-    S3 --> S4{"结果 UNKNOWN?"}
-    S4 -- "否" --> S5["返回 NetworkState"]
-    S4 -- "是" --> S6["_status_from_portal_url(cached portal_url)"]
+    S --> S1{"Has cached portal_url?"}
+    S1 -- No --> S2[StateError: login first to cache]
+    S1 -- Yes --> S3["detect_network_status(redirect_url)"]
+    S3 --> S4{Result UNKNOWN?}
+    S4 -- No --> S5[Return NetworkState]
+    S4 -- Yes --> S6["_status_from_portal_url(cached portal_url)"]
 
     A --> E["ensure_state()"]
-    E --> E1{"_state_has_fresh_portal_url?"}
-    E1 -- "是" --> E2["返回 cached"]
-    E1 -- "否" --> E3["status()"]
-    E3 --> E4{"ON_CAMPUS_AUTH?"}
-    E4 -- "是" --> E5["NeedUnauthed"]
-    E4 -- "否" --> E6["get_portal_info → 保存 state"]
+    E --> E1["_state_has_fresh_portal_url?"]
+    E1 -- Yes --> E2[Return cached]
+    E1 -- No --> E3["status()"]
+    E3 --> E4{ON_CAMPUS_AUTH?}
+    E4 -- Yes --> E5[NeedUnauthed]
+    E4 -- No --> E6["get_portal_info -> save state"]
 
     A --> L["login(user_id, password, service)"]
     L --> L1{"cached portal_url?"}
-    L1 -- "是" --> L2["_status_from_portal_url"]
-    L1 -- "否" --> L3["detect_network_status"]
+    L1 -- Yes --> L2["_status_from_portal_url"]
+    L1 -- No --> L3["detect_network_status"]
     L2 --> L4{"ON_CAMPUS_AUTH?"}
     L3 --> L4
-    L4 -- "是" --> L5["AlreadyOnline: Login skipped"]
-    L4 -- "否" --> L6{"OFF_CAMPUS?"}
-    L6 -- "是" --> L7["AlreadyOffline: Login skipped"]
-    L6 -- "否" --> L8["get_portal_info → portal_url/query → save"]
+    L4 -- Yes --> L5[AlreadyOnline: Login skipped]
+    L4 -- No --> L6{"OFF_CAMPUS?"}
+    L6 -- Yes --> L7[AlreadyOffline: Login skipped]
+    L6 -- No --> L8["get_portal_info -> portal_url/query -> save"]
     L8 --> L9["do_login(...)"]
 
     A --> O["logout()"]
     O --> O1{"cached portal_url?"}
-    O1 -- "否" --> O2["StateError: no cache"]
-    O1 -- "是" --> O3["_status_from_portal_url"]
-    O3 --> O4{"ON_CAMPUS_UNAUTH 或 OFF_CAMPUS?"}
-    O4 -- "是" --> O5["AlreadyOffline: Logout skipped"]
-    O4 -- "否" --> O6{"UNKNOWN?"}
-    O6 -- "是" --> O7["StateError: unknown"]
-    O6 -- "否" --> O8["get_portal_info → save"]
-    O8 --> O9{"portal_url 存在?"}
-    O9 -- "否" --> O10["StateError: no portal_url"]
-    O9 -- "是" --> O11["do_logout(...)"]
+    O1 -- No --> O2[StateError: no cache]
+    O1 -- Yes --> O3["_status_from_portal_url"]
+    O3 --> O4{"ON_CAMPUS_UNAUTH or OFF_CAMPUS?"}
+    O4 -- Yes --> O5[AlreadyOffline: Logout skipped]
+    O4 -- No --> O6{"UNKNOWN?"}
+    O6 -- Yes --> O7[StateError: unknown]
+    O6 -- No --> O8["get_portal_info -> save"]
+    O8 --> O9{"portal_url exists?"}
+    O9 -- No --> O10[StateError: no portal_url]
+    O9 -- Yes --> O11["do_logout(...)"]
 
-    subgraph Helper["Helper"]
+    subgraph Helper
         H1["_state_has_fresh_portal_url"]
         H2["_status_from_portal_url"]
     end
