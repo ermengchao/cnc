@@ -1,4 +1,4 @@
-## cuit-campus-network
+# cnc
 
 ![Github Social Preview](<https://img.er-meng.com/repos/cnc/Intro.jpg>)
 
