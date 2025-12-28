@@ -26,6 +26,26 @@ English | [简体中文](<https://github.com/ermengchao/cnc/blob/main/README.zh-
 - [ ] :beer: Upload to `Homebrew`
 - [ ] :file_folder: Package into a container
 
+## Install
+
+- Pip
+```shell
+pip install cnc
+```
+
+- Source Code
+  1. Clone this repository
+
+  ```shell
+  git clone https://github.com/ermengchao/cnc . && cd cnc
+  ```
+
+  2. Install the `cnc` package
+
+  ```shell
+  pip install -e .
+  ```
+
 ## Usage
 
 :exclamation::exclamation: Before first usage, please run

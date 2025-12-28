@@ -29,24 +29,22 @@
 ## 安装
 
 - Pip
-
 ```shell
 pip install cnc
 ```
 
 - Source Code
+  1. 克隆本仓库
 
-1. 克隆本仓库
+  ```shell
+  git clone https://github.com/ermengchao/cnc . && cd cnc
+  ```
 
-```shell
-git clone https://github.com/ermengchao/cnc . && cd cnc
-```
+  2. 安装 `cnc` 包
 
-2. 安装 `cnc`` 包
-
-```shell
-pip install -e .
-```
+  ```shell
+  pip install -e .
+  ```
 
 ## 使用
 
