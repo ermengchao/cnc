@@ -433,7 +433,7 @@ class CampusNetClient:
                 proxies={"http": None, "https": None},
             )
         except requests.Timeout:
-            return NetworkState.UNKNOWN
+            return NetworkState.OFF_CAMPUS
         except requests.RequestException:
             return NetworkState.UNKNOWN
 
