@@ -160,145 +160,6 @@ Output:
 
 - Prints CLI help text
 
-## Principles
-
-> Optional. If you are interested, you can refer to the steps below. If you run into any issues, feel free to open an [issue](<https://github.com/ermengchao/cnc/issues>)!
-
-### Login principle
-
-Login is essentially a `POST` request to `http://{portal_url}/eportal/Interface.do?method=login`, with the following fields:
-
-```shell
-# Header
--H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
-
-# Body
-# User info
---data-urlencode "userId=$userId" \
---data-urlencode "password=$password" \
---data-urlencode "service=$service" \
---data-urlencode "queryString=$queryString" \
-# Placeholder fields
---data-urlencode 'operatorPwd=' \
---data-urlencode 'operatorUserId=' \
---data-urlencode 'validcode=' \
---data-urlencode 'passwordEncrypt=false'
-```
-
-### Logout principle
-
-Logout is essentially a `POST` request to `http://{portal_url}/eportal/Interface.do?method=logout`. Unlike login, logout does not require a request body.
-
-### Status principle
-
-Status is essentially a `GET` request to `http://{portal_url}/eportal/redirectortosuccess.jsp`, and you can determine the state by checking the `Location` header:
-
-- Authenticated: `Location=http://{portal_url}/eportal/./success.jsp`
-- Unauthenticated: `Location=http://123.123.123.123/`
-- Off campus: request timeout
-
-### login
-
-**Use**
-
-```bash
-cnc login --user-id <USER_ID> --password <PASSWORD> --service <电信|移动>
-```
-
-**Input**
-
-- `--user-id` (env: `CNC_USER_ID`)
-- `--password` (env: `CNC_PASSWORD`, hidden input)
-- `--service` (env: `CNC_SERVICE`, 电信 or 移动)
-
-**Output**
-
-- `Login successful`
-- `Already online. Login skipped.`
-- `You appear to be offline. Login skipped.`
-- `Login failed: <error>`
-
-### logout
-
-**Use**
-
-```bash
-cnc logout
-```
-
-**Input**
-
-- none (uses cached `portal_url` from previous login)
-
-**Output**
-
-- `Logged out successfully`
-- `Already offline. Logout skipped.`
-- `Logout failed: <error>`
-
-### status
-
-**Use**
-
-```bash
-cnc status
-```
-
-**Input**
-
-- none (uses cached `portal_url` from previous login)
-
-**Output**
-
-- `Status: on_campus_unauth`
-- `Status: on_campus_auth`
-- `Status: off_campus`
-- `Status: unknown`
-
-### keep-alive
-
-**Use (polling mode, default)**
-
-```bash
-cnc keep-alive --polling --interval-seconds 300
-```
-
-**Use (relogin mode)**
-
-```bash
-cnc keep-alive --relogin --user-id <USER_ID> --password <PASSWORD> --service <电信|移动> --run-at 05:00
-```
-
-**Input**
-
-- `--polling` or `--relogin` (choose one)
-- `--interval-seconds` (polling only, default `300`)
-- `--user-id`, `--password`, `--service` (relogin only; can use `CNC_USER_ID`, `CNC_PASSWORD`, `CNC_SERVICE`)
-- `--run-at` (relogin only, daily time `HH:MM`, default `05:00`)
-
-**Output**
-
-- `Choose only one mode: --polling or --relogin`
-- `relogin mode requires --user-id, --password, and --service`
-- `Keep-alive failed: <error>`
-
-### help
-
-**Use**
-
-```bash
-cnc help
-cnc help login
-```
-
-**Input**
-
-- optional subcommand name
-
-**Output**
-
-- prints help text for the CLI or a specific subcommand
-
 ## Process
 
 ```mermaid
@@ -351,6 +212,43 @@ flowchart TD
         H2["_status_from_portal_url"]
     end
 ```
+
+## Principles
+
+> Optional. If you are interested, you can refer to the steps below. If you run into any issues, feel free to open an [issue](<https://github.com/ermengchao/cnc/issues>)!
+
+### Login principle
+
+Login is essentially a `POST` request to `http://{portal_url}/eportal/Interface.do?method=login`, with the following fields:
+
+```shell
+# Header
+-H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
+
+# Body
+# User info
+--data-urlencode "userId=$userId" \
+--data-urlencode "password=$password" \
+--data-urlencode "service=$service" \
+--data-urlencode "queryString=$queryString" \
+# Placeholder fields
+--data-urlencode 'operatorPwd=' \
+--data-urlencode 'operatorUserId=' \
+--data-urlencode 'validcode=' \
+--data-urlencode 'passwordEncrypt=false'
+```
+
+### Logout principle
+
+Logout is essentially a `POST` request to `http://{portal_url}/eportal/Interface.do?method=logout`. Unlike login, logout does not require a request body.
+
+### Status principle
+
+Status is essentially a `GET` request to `http://{portal_url}/eportal/redirectortosuccess.jsp`, and you can determine the state by checking the `Location` header:
+
+- Authenticated: `Location=http://{portal_url}/eportal/./success.jsp`
+- Unauthenticated: `Location=http://123.123.123.123/`
+- Off campus: request timeout
 
 ## LICENSE
 
