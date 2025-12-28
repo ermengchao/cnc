@@ -22,7 +22,7 @@ English | [简体中文](<https://github.com/ermengchao/cnc/blob/main/README.zh-
 - [x] :rocket: Support multiple ISP
 - [x] :school: Support multiple places(dormitory, classroom, etc.)
 - [ ] :eyes: Add graphical user interface（maybe `Next.js` or `Gradio`）
-- [ ] :hammer: Upload to `Pypi`
+- [ ] :hammer: Upload to `PyPI`
 - [ ] :beer: Upload to `Homebrew`
 - [ ] :file_folder: Package into a container
 
@@ -30,7 +30,7 @@ English | [简体中文](<https://github.com/ermengchao/cnc/blob/main/README.zh-
 
 - Pip
 ```shell
-pip install cnc
+pip install cnc-cli
 ```
 
 - Source Code

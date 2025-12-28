@@ -22,7 +22,7 @@
 - [x] :rocket: 增加对移动的支持
 - [x] :school: 增加对教学楼&图书馆&实验室的支持
 - [ ] :eyes: 配置可视化界面（`Next.js` 或 `Gradio`）
-- [ ] :hammer: 上传至 `Pypi`
+- [ ] :hammer: 上传至 `PyPI`
 - [ ] :beer: 上传至 `Homebrew`
 - [ ] :file_folder: 打包为 `Docker` 容器
 
@@ -30,7 +30,7 @@
 
 - Pip
 ```shell
-pip install cnc
+pip install cnc-cli
 ```
 
 - Source Code

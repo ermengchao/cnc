@@ -3,18 +3,21 @@ requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "cnc"
+name = "cnc-cli"
 version = "0.1.0"
 description = "Campus network control (cnc)"
 readme = "README.md"
-requires-python = ">=3.10"
-license = { text = "MIT" }
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
-  { name = "chao" }
+  { name = "ermengchao", email = "zhangchao050530@gmail.com" }
 ]
 classifiers = [
   "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
   "requests>=2.31.0",
@@ -22,6 +25,11 @@ dependencies = [
   "rich>=13.0.0",
   "schedule>=1.2.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/ermengchao/cnc"
+Repository = "https://github.com/ermengchao/cnc"
+Issues = "https://github.com/ermengchao/cnc/issues"
 
 [project.scripts]
 cnc = "cnc.main:main"
@@ -31,4 +39,3 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
