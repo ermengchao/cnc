@@ -45,7 +45,7 @@ def detect_network_status(
             allow_redirects=False,
             timeout=timeout,
             verify=verify_tls,
-            proxies={"http": None, "https": None},
+            proxies=None,
         )
     except requests.Timeout:
         return NetworkState.OFF_CAMPUS

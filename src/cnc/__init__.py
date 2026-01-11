@@ -1,5 +1,5 @@
 """
-cnc - Campus Network Control
+cnc - Campus Network Client
 
 A CLI tool and Python library for managing campus network authentication.
 
@@ -17,5 +17,3 @@ __all__ = [
     "CampusNetClient",
     "NetworkState",
 ]
-
-__version__ = "0.1.0"

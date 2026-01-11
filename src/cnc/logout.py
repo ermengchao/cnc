@@ -8,6 +8,8 @@ from cnc.portal import get_portal_info
 class LogoutError(Exception):
     """Raised when portal logout fails."""
 
+    pass
+
 
 def do_logout(
     *,
@@ -41,7 +43,7 @@ def do_logout(
             url,
             timeout=timeout,
             verify=verify_tls,
-            proxies={"http": None, "https": None},
+            proxies=None,
         )
     except Exception as e:
         raise LogoutError(f"request failed: {e}") from e

@@ -7,9 +7,9 @@ Wants=network-online.target
 Type=oneshot
 WorkingDirectory=$home
 
-ExecStartPre=$HOME/.local/bin/logout.sh
+ExecStartPre=/home/linuxbrew/.linuxbrew/bin/uvx --from cnc-cli cnc logout
 ExecStart=/usr/bin/sleep 2
-ExecStartPost=$HOME/.local/bin/login.sh
+ExecStartPost=/home/linuxbrew/.linuxbrew/bin/uvx --from cnc-cli cnc login
 
 StandardOutput=journal
 StandardError=journal

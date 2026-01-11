@@ -3,7 +3,6 @@ from __future__ import annotations
 import requests
 
 from cnc.portal import get_portal_info
-# from cnc.probe import NetworkState, detect_network_status
 
 
 class LoginError(Exception):
@@ -63,7 +62,7 @@ def do_login(
             data=payload,
             timeout=timeout,
             verify=verify_tls,
-            proxies={"http": None, "https": None},
+            proxies=None,
         )
         response.raise_for_status()
         response.encoding = "utf-8"

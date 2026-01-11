@@ -17,17 +17,25 @@ from cnc.logout import do_logout, LogoutError
 class StateError(RuntimeError):
     """Raised when state cannot be loaded/saved or is missing when required."""
 
+    pass
+
 
 class NeedUnauthed(RuntimeError):
     """Raised when an operation requires the user to be on-campus but unauthenticated."""
+
+    pass
 
 
 class AlreadyOnline(RuntimeError):
     """Raised when an operation is skipped because the user is already online."""
 
+    pass
+
 
 class AlreadyOffline(RuntimeError):
     """Raised when an operation is skipped because the user is already offline."""
+
+    pass
 
 
 def get_state_dir() -> Path:
@@ -313,15 +321,18 @@ class CampusNetClient:
             if cached and isinstance(cached.get("portal_url"), str):
                 portal_url = cached["portal_url"]
 
-        do_login(
-            user_id,
-            password,
-            service,
-            portal_url=portal_url,
-            query_string=query_string,
-            timeout=self.config.timeout,
-            verify_tls=self.config.verify_tls,
-        )
+        try:
+            do_login(
+                user_id,
+                password,
+                service,
+                portal_url=portal_url,
+                query_string=query_string,
+                timeout=self.config.timeout,
+                verify_tls=self.config.verify_tls,
+            )
+        except LoginError:
+            raise LoginError("Login error.")
 
     def logout(self) -> None:
         """
@@ -377,11 +388,14 @@ class CampusNetClient:
                 "to cache the portal URL, then retry logout."
             )
 
-        do_logout(
-            portal_url=url,
-            timeout=self.config.logout_timeout,
-            verify_tls=self.config.verify_tls,
-        )
+        try:
+            do_logout(
+                portal_url=url,
+                timeout=self.config.logout_timeout,
+                verify_tls=self.config.verify_tls,
+            )
+        except LogoutError:
+            raise LogoutError("Logout error.")
 
     def _state_has_fresh_portal_url(self, data: Optional[dict]) -> bool:
         """Return True if cached portal_url exists and is within TTL.
@@ -430,7 +444,7 @@ class CampusNetClient:
                 allow_redirects=False,
                 timeout=min(self.config.timeout, 2.0),
                 verify=self.config.verify_tls,
-                proxies={"http": None, "https": None},
+                proxies=None,
             )
         except requests.Timeout:
             return NetworkState.OFF_CAMPUS

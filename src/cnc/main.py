@@ -5,7 +5,13 @@ import click
 from typer.main import get_command
 from rich import print
 
-from cnc.client import CampusNetClient, NeedUnauthed, StateError, AlreadyOffline, AlreadyOnline
+from cnc.client import (
+    CampusNetClient,
+    NeedUnauthed,
+    StateError,
+    AlreadyOffline,
+    AlreadyOnline,
+)
 from cnc.keep_alive import KeepAliveMode, keep_alive
 from cnc.login import LoginError
 from cnc.logout import LogoutError
@@ -60,8 +66,7 @@ def login(
 
 
 @app.command()
-def logout(
-):
+def logout():
     """
     Logout from campus network.
 

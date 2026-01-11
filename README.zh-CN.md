@@ -2,7 +2,7 @@
 
 ![Github Social Preview](<https://img.er-meng.com/repos/cnc/Intro.jpg>)
 
-[![Python Version](https://img.shields.io/badge/python-3.14-blue)](https://www.python.org)
+[![Python Version](https://img.shields.io/badge/python-3.13-blue)](https://www.python.org)
 [![License](https://img.shields.io/github/license/ermengchao/cnc)](https://github.com/ermengchao/cnc/main/LICENSE)
 [![Last Commit](https://img.shields.io/github/last-commit/ermengchao/cnc)](https://github.com/ermengchao/cnc/commits)
 [![GitHub stars](https://img.shields.io/github/stars/ermengchao/cnc)](https://github.com/ermengchao/cnc)

@@ -84,10 +84,10 @@ def get_portal_info(
             If the portal URL cannot be found or is malformed.
     """
     resp = requests.get(
-        redirect_url,
+        url=redirect_url,
         timeout=timeout,
         verify=verify_tls,
-        proxies={"http": None, "https": None},
+        proxies=None,
         headers={
             "User-Agent": (
                 "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
